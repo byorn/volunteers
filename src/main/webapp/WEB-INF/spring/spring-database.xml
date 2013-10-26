@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	xmlns:context="http://www.springframework.org/schema/context"
+	>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+<!--		<property name="url" value="jdbc:mysql://localhost:3306/volunteersdb" />
+                
+		<property name="username" value="root" />
+		<property name="password" value="" />-->
+		
+                <property name="url" value="jdbc:mysql://mysql.yourhostname.com/volunteers" />
+                
+		<property name="username" value="toastmasterslol" />
+		<property name="password" value="pipeslol" />
+		
+                
+                
+                
+		
+	</bean>
+	
+	
+	<bean id="jdbcTemplate"
+			class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+			<constructor-arg ref="dataSource" />
+			
+    </bean>
+	
+	
+	
+	<!-- org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean -->
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	
+			<property name="dataSource" ref="dataSource" />
+			<property name="annotatedClasses">
+				<list>
+					<value>com.desilvas.volunteerapp.domain.User</value>
+					<value>com.desilvas.volunteerapp.domain.Project</value>
+					<value>com.desilvas.volunteerapp.domain.ProjectVolunteer</value>
+				 	<value>com.desilvas.volunteerapp.domain.Category</value>
+				 	<value>com.desilvas.volunteerapp.domain.Message</value>
+				 	<value>com.desilvas.volunteerapp.domain.UserImage</value>
+				 	<value>com.desilvas.volunteerapp.domain.UserSkills</value>
+				 	
+				</list>	
+			</property>
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+					<prop key="hibernate.show_sql">true</prop>
+					<prop key="max_allowed_packet">5242880</prop><!-- 5MB -->
+				
+				</props>
+			</property>
+	
+	</bean>
+	
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	
+	
+	
+	
+	
+
+</beans>
